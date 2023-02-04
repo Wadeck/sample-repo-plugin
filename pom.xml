@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.54</version>
+        <version>3.56</version>
         <relativePath/>
     </parent>
     <artifactId>sample-repo-for-codeql</artifactId>
@@ -15,7 +15,9 @@
     <url>https://github.com/Wadeck/${project.artifactId}-plugin</url>
     <properties>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
-        <jenkins.version>2.361.4</jenkins.version>
+<!--        Before 2.150 Jenkins core was not supporting Java 11-->
+        <jenkins.version>2.150.3</jenkins.version>
+        <java.level>8</java.level>
     </properties>
     <licenses>
         <license>
@@ -48,15 +50,15 @@
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.361.x</artifactId>
-                <version>1792.v0295db_e7c548</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+<!--    <dependencyManagement>-->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>io.jenkins.tools.bom</groupId>-->
+<!--                <artifactId>bom-2.361.x</artifactId>-->
+<!--                <version>1792.v0295db_e7c548</version>-->
+<!--                <scope>import</scope>-->
+<!--                <type>pom</type>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+<!--    </dependencyManagement>-->
 </project>
