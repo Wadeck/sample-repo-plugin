@@ -55,6 +55,7 @@ public class SampleBuildStep extends Builder {
             this.globalMessageToDisplay = globalMessageToDisplay;
         }
 
+        // lgtm[jenkins/csrf]
         public FormValidation doCheckGlobalMessageToDisplay(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
