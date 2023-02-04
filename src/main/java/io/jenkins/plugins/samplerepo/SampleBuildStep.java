@@ -11,6 +11,7 @@ import hudson.util.FormValidation;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class SampleBuildStep extends Builder {
             this.globalMessageToDisplay = globalMessageToDisplay;
         }
 
-        public FormValidation doCheckGlobalMessageToDisplay(String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
