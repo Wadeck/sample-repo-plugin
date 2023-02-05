@@ -96,7 +96,7 @@ public class SampleBuildStep extends Builder {
         }
 
         @SuppressWarnings("lgtm[jenkins/no-permission-check]")
-        public FormValidation doCheckGlobalMessageToDisplay6(@QueryParameter String value) throws IOException { // lgtm[jenkins/csrf]
+        public FormValidation doCheckGlobalMessageToDisplay6(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
@@ -113,6 +113,14 @@ public class SampleBuildStep extends Builder {
 
         // lgtm[]
         public FormValidation doCheckGlobalMessageToDisplay8(@QueryParameter String value) throws IOException {
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        @SuppressWarnings("lgtm[]")
+        public FormValidation doCheckGlobalMessageToDisplay9(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
