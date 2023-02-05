@@ -86,7 +86,39 @@ public class SampleBuildStep extends Builder {
             }
             return FormValidation.ok();
         }
-        
+
+        @SuppressWarnings("lgtm[jenkins/no-permission-check]")
+        public FormValidation doCheckGlobalMessageToDisplay5(@QueryParameter String value) throws IOException { // lgtm[jenkins/csrf]
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        @SuppressWarnings("lgtm[jenkins/no-permission-check]")
+        public FormValidation doCheckGlobalMessageToDisplay6(@QueryParameter String value) throws IOException { // lgtm[jenkins/csrf]
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        } // lgtm[jenkins/csrf]
+
+        @SuppressWarnings("lgtm")
+        public FormValidation doCheckGlobalMessageToDisplay7(@QueryParameter String value) throws IOException {
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        // lgtm[]
+        public FormValidation doCheckGlobalMessageToDisplay8(@QueryParameter String value) throws IOException {
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> jobType) {
             return true;
