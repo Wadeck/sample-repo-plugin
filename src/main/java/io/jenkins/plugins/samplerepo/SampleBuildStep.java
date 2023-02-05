@@ -8,11 +8,13 @@ import hudson.model.BuildListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.verb.POST;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,7 +58,7 @@ public class SampleBuildStep extends Builder {
         }
 
         // lgtm[jenkins/csrf]
-        public FormValidation doCheckGlobalMessageToDisplay1(@QueryParameter String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay1_notBefore(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
@@ -64,7 +66,7 @@ public class SampleBuildStep extends Builder {
         }
 
         @SuppressWarnings("lgtm[jenkins/csrf]")
-        public FormValidation doCheckGlobalMessageToDisplay2(@QueryParameter String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay2_ok(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
@@ -73,22 +75,14 @@ public class SampleBuildStep extends Builder {
 
         // lgtm[jenkins/no-permission-check]
         @SuppressWarnings("lgtm[jenkins/csrf]")
-        public FormValidation doCheckGlobalMessageToDisplay3(@QueryParameter String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay3_notBefore(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
             return FormValidation.ok();
         }
 
-        public FormValidation doCheckGlobalMessageToDisplay4(@QueryParameter String value) throws IOException {
-            if (value.startsWith("http://")) {
-                new URL(value).openConnection();
-            }
-            return FormValidation.ok();
-        }
-
-        @SuppressWarnings("lgtm[jenkins/no-permission-check]")
-        public FormValidation doCheckGlobalMessageToDisplay5(@QueryParameter String value) throws IOException { // lgtm[jenkins/csrf]
+        public FormValidation doCheckGlobalMessageToDisplay4_noSuppressions(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
@@ -96,7 +90,15 @@ public class SampleBuildStep extends Builder {
         }
 
         @SuppressWarnings("lgtm[jenkins/no-permission-check]")
-        public FormValidation doCheckGlobalMessageToDisplay6(@QueryParameter String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay5_suppressed(@QueryParameter String value) throws IOException { // lgtm[jenkins/csrf]
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        @SuppressWarnings("lgtm[jenkins/no-permission-check]")
+        public FormValidation doCheckGlobalMessageToDisplay6_notAfter(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
@@ -104,15 +106,15 @@ public class SampleBuildStep extends Builder {
         } // lgtm[jenkins/csrf]
 
         @SuppressWarnings("lgtm")
-        public FormValidation doCheckGlobalMessageToDisplay7(@QueryParameter String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay7_onlySupportedInComment(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
             return FormValidation.ok();
         }
 
-        // lgtm[]
-        public FormValidation doCheckGlobalMessageToDisplay8(@QueryParameter String value) throws IOException {
+        // lgtm
+        public FormValidation doCheckGlobalMessageToDisplay8_endOfLineOnly(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
@@ -120,7 +122,31 @@ public class SampleBuildStep extends Builder {
         }
 
         @SuppressWarnings("lgtm[]")
-        public FormValidation doCheckGlobalMessageToDisplay9(@QueryParameter String value) throws IOException {
+        public FormValidation doCheckGlobalMessageToDisplay9_onlySupportedInComment(@QueryParameter String value) throws IOException {
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckGlobalMessageToDisplay10_suppressed(@QueryParameter String value) throws IOException { // lgtm
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        @POST
+        public FormValidation doCheckGlobalMessageToDisplay11_ok(@QueryParameter String value) throws IOException {
+            Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            if (value.startsWith("http://")) {
+                new URL(value).openConnection();
+            }
+            return FormValidation.ok();
+        }
+
+        @SuppressWarnings({"lgtm[jenkins/no-permission-check] with rationale","lgtm[jenkins/csrf]"})
+        public FormValidation doCheckGlobalMessageToDisplay12_suppressed(@QueryParameter String value) throws IOException {
             if (value.startsWith("http://")) {
                 new URL(value).openConnection();
             }
